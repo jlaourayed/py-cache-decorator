@@ -3,16 +3,16 @@ from functools import wraps
 
 
 def cache(func: Callable) -> Callable:
-    resultats_executions = {}
+    results_cache = {}
 
     @wraps(func)
     def wrapper(*args, **kwargs) -> func:
         sorted_kwargs = tuple(sorted(kwargs.items()))
-        cle = (args, sorted_kwargs)
-        if cle not in resultats_executions:
+        key = (args, sorted_kwargs)
+        if key not in results_cache:
             print("Calculating new result")
-            resultats_executions[cle] = func(*args, **kwargs)
+            results_cache[key] = func(*args, **kwargs)
         else:
             print("Getting from cache")
-        return resultats_executions[cle]
+        return results_cache[key]
     return wrapper
